@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SendAMessage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+
+/* Layout: one centered column: header, a four-step "how it works" flow, a card with the facts, a button to the privacy policy, a small footer note */
+:root{
+  --bg:#f6f4f2; --surface:#ffffff; --fg:#1f1d1c; --muted:#7a726c; --line:#e6e0db;
+  --accent:#e8572a; --accent-soft:#fdebe4;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#171514; --surface:#221f1d; --fg:#f2eeeb; --muted:#a39a94; --line:#37322f;
+  --accent:#f26a3f; --accent-soft:#3a231b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#171514; --surface:#221f1d; --fg:#f2eeeb; --muted:#a39a94; --line:#37322f;
+  --accent:#f26a3f; --accent-soft:#3a231b; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:520px;margin:0 auto;padding-block:32px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;align-items:center;gap:22px}
+header{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+h1{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.12em;text-transform:uppercase;margin:0}
+.meta{color:var(--muted);font-size:.95rem}
+.badge{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;padding:2px 12px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin-top:8px}
+
+.card{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:18px}
+.label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
+.card p{margin:0}
+.card ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px}
+.card li::marker{color:var(--accent)}
+
+/* four-step flow: icon circle on the left, a line connecting the steps, text on the right */
+.steps{display:flex;flex-direction:column;margin:2px 0 0}
+.step{position:relative;display:grid;grid-template-columns:48px 1fr;gap:16px;padding-bottom:22px}
+.step:last-child{padding-bottom:4px}
+.step:not(:last-child)::before{content:"";position:absolute;left:23px;top:52px;bottom:4px;width:2px;background:var(--line)}
+.icon{width:48px;height:48px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.step h2{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 2px;line-height:1.1}
+.step .n{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.step p{color:var(--muted);font-size:.95rem}
+.bubble{margin-top:10px;background:var(--bg);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:.92rem;color:var(--fg);white-space:pre-line;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;padding-top:16px;border-top:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:600;padding:5px 12px 5px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+a:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+.note{color:var(--muted);font-size:.9rem;margin:0;text-align:center}
+.note a{color:var(--accent);text-underline-offset:3px}
+.note a.plain{color:inherit;text-decoration-color:var(--line)}
+.note a.plain:hover{text-decoration-color:var(--muted)}
+.notes{display:flex;flex-direction:column;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SendAMessage</h1>
+    <span class="meta">A personal project by Martin</span>
+    <span class="badge">Not public</span>
+  </header>
+
+  <section class="card" aria-label="How it works">
+    <p class="label">How it works</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <div>
+          <span class="n">Step 1</span>
+          <h2>Every morning at 09:00</h2>
+          <p>Cloudflare (a timer in the cloud) triggers the job on GitHub Actions at 09:00 Berlin time.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div>
+          <span class="n">Step 2</span>
+          <h2>It looks at the contacts</h2>
+          <p>It reads only names and birthdays from Martin's own Google Contacts via the Google People API. It can look, but it cannot change or delete anything.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M12 13v1.5"/><rect x="8.5" y="15" width="7" height="3.5" rx="1"/></svg>
+        </div>
+        <div>
+          <span class="n">Step 3</span>
+          <h2>It finds today's birthdays</h2>
+          <p>It compares each birthday with today's date. Nothing is saved, and the list is gone when the job ends.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 2.5 2.5 7z"/><path d="M10 13 21 3"/></svg>
+        </div>
+        <div>
+          <span class="n">Step 4</span>
+          <h2>It sends a message</h2>
+          <p>A Telegram message to Martin's phone, like this:</p>
+          <div class="bubble">Good morning Martin, today is Friday 13.11.2026.
+Today's birthdays are 🎂:
+• Anna Smith (36)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chips" aria-label="Summary of the privacy approach">
+      <span class="chip"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>Read-only access</span>
+      <span class="chip"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>Nothing stored</span>
+      <span class="chip"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>Private to Martin</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div>
+      <p class="label">Who can use it</p>
+      <p>Only Martin with his own Google account. It is not offered to the public and has no sign-up.</p>
+    </div>
+    <div>
+      <p class="label">What it never does</p>
+      <ul>
+        <li>Create, change or delete a contact.</li>
+        <li>Share contact data with anyone else.</li>
+        <li>Use contact data for advertising or AI training.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="notes">
+    <p class="note"><a href="privacy.html">Read the privacy policy</a></p>
+    <p class="note">Contact: <a class="plain" href="mailto:martin.boller+sendamessage@gmail.com">martin.boller+sendamessage@gmail.com</a></p>
+  </div>
+</div>
+</body>
+</html>
